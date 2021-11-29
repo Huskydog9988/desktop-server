@@ -1,0 +1,103 @@
+version: "3.8"
+
+volumes:
+  portainer_data:
+
+services:
+  watchtower:
+    image: containrrr/watchtower
+    container_name: watchtower
+    restart: always
+    environment:
+      TZ: "America/New_York"
+      WATCHTOWER_CLEANUP: "true"
+      WATCHTOWER_LABEL_ENABLE: "true"
+      WATCHTOWER_POLL_INTERVAL: 3600
+      # WATCHTOWER_SCHEDULE: "0 0 3 * * *"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      # - /root/.docker/config.json:/config.json
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+
+  portainer:
+    image: portainer/portainer-ce
+    container_name: portainer
+    environment:
+      TZ: "America/New_York"
+    restart: always
+    ports:
+      #  # http port
+      - target: 9000
+        published: 9000
+        protocol: tcp
+      # edge agent stuff
+      - target: 8000
+        published: 8000
+        protocol: tcp
+    volumes:
+      - portainer_data:/data
+      - /var/run/docker.sock:/var/run/docker.sock
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+
+  # archiveteam-reddit:
+  #   image: atdr.meo.ws/archiveteam/warrior-dockerfile
+  #   container_name: archiveteam-warrior
+  #   restart: always
+  #   # ports:
+  #   #   - '8001:8001'
+  #   environment:
+  #     - 'DOWNLOADER=${NAME}'
+  #     - SELECTED_PROJECT=reddit
+  #   labels:
+  #     - com.centurylinklabs.watchtower.enable=true
+
+  # archiveteam-youtube-dislike:
+  #   image: atdr.meo.ws/archiveteam/warrior-dockerfile
+  #   container_name: archiveteam-warrior-youtube-dislike
+  #   restart: always
+  #   # ports:
+  #   #   - '8001:8001'
+  #   environment:
+  #     - 'DOWNLOADER=${NAME}'
+  #     - SELECTED_PROJECT=youtube-dislikes
+  #   labels:
+  #     - com.centurylinklabs.watchtower.enable=true
+
+  archiveteam:
+    image: atdr.meo.ws/archiveteam/warrior-dockerfile
+    # container_name: archiveteam-warrior
+    restart: always
+    deploy:
+      mode: replicated
+      replicas: 4
+      restart_policy:
+        condition: on-failure
+    # ports:
+    #   - '8001:8001'
+    environment:
+      - 'DOWNLOADER=${NAME}'
+      - SELECTED_PROJECT=auto
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
+
+  chunkycloud-renderer:
+    image: lemaik/chunkycloud-renderer:latest
+    container_name: cc-renderer
+    command: --name ${NAME} -t 4
+    restart: always
+    environment:
+      - API_KEY=${APIKEY}
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+
+  chunkycloud-region-processor:
+    image: lemaik/chunkycloud-region-processor:latest
+    container_name: cc-processor
+    command: --name ${NAME}
+    restart: always
+    environment:
+      - API_KEY=${APIKEY}
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
