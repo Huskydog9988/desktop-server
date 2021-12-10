@@ -71,14 +71,14 @@ services:
     restart: always
     deploy:
       mode: replicated
-      replicas: 4
+      replicas: 10
       restart_policy:
         condition: on-failure
     # ports:
     #   - '8001:8001'
     environment:
       - 'DOWNLOADER=${NAME}'
-      - SELECTED_PROJECT=auto
+      - SELECTED_PROJECT=youtube-dislikes
     labels:
       - com.centurylinklabs.watchtower.enable=true
 
