@@ -82,22 +82,22 @@ services:
     labels:
       - com.centurylinklabs.watchtower.enable=true
 
-  chunkycloud-renderer:
-    image: lemaik/chunkycloud-renderer:latest
-    container_name: cc-renderer
-    command: --name ${NAME} -t 4
-    restart: always
-    environment:
-      - API_KEY=${APIKEY}
-    labels:
-      - "com.centurylinklabs.watchtower.enable=true"
+  # chunkycloud-renderer:
+  #   image: lemaik/chunkycloud-renderer:latest
+  #   container_name: cc-renderer
+  #   command: --name ${NAME} -t 4
+  #   restart: always
+  #   environment:
+  #     - API_KEY=${APIKEY}
+  #   labels:
+  #     - "com.centurylinklabs.watchtower.enable=true"
 
-  chunkycloud-region-processor:
-    image: lemaik/chunkycloud-region-processor:latest
-    container_name: cc-processor
-    command: --name ${NAME}
-    restart: always
-    environment:
-      - API_KEY=${APIKEY}
-    labels:
-      - "com.centurylinklabs.watchtower.enable=true"
+  # chunkycloud-region-processor:
+  #   image: lemaik/chunkycloud-region-processor:latest
+  #   container_name: cc-processor
+  #   command: --name ${NAME}
+  #   restart: always
+  #   environment:
+  #     - API_KEY=${APIKEY}
+  #   labels:
+  #     - "com.centurylinklabs.watchtower.enable=true"
