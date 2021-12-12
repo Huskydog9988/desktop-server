@@ -69,16 +69,18 @@ services:
     image: atdr.meo.ws/archiveteam/warrior-dockerfile
     # container_name: archiveteam-warrior
     restart: always
-    deploy:
-      mode: replicated
-      replicas: 10
-      restart_policy:
-        condition: on-failure
-    # ports:
-    #   - '8001:8001'
+    # deploy:
+    #   mode: replicated
+    #   replicas: 12
+    #   restart_policy:
+    #     condition: on-failure
+    ports:
+      - '8001:8001'
     environment:
       - 'DOWNLOADER=${NAME}'
-      - SELECTED_PROJECT=youtube-dislikes
+      - 'SELECTED_PROJECT=youtube-dislikes'
+      - 'CONCURRENT_ITEMS=6'
+      - 'SHARED_RSYNC_THREADS=60'
     labels:
       - com.centurylinklabs.watchtower.enable=true
 
