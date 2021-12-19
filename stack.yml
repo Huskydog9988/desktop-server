@@ -65,6 +65,14 @@ services:
   #   labels:
   #     - com.centurylinklabs.watchtower.enable=true
 
+  epic_free:
+    image: ghcr.io/jackblk/epicgames-freebies-claimer:latest
+    container_name: 'epic_free'
+    stdin_open: true # docker run -i
+    tty: true        # docker run -t
+    volumes:
+      - './epicgames-freebies:/app/data'
+
   archiveteam:
     image: atdr.meo.ws/archiveteam/warrior-dockerfile
     # container_name: archiveteam-warrior
