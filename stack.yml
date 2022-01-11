@@ -65,13 +65,13 @@ services:
   #   labels:
   #     - com.centurylinklabs.watchtower.enable=true
 
-  epic_free:
-    image: ghcr.io/jackblk/epicgames-freebies-claimer:latest
-    container_name: 'epic_free'
-    stdin_open: true # docker run -i
-    tty: true        # docker run -t
-    volumes:
-      - './epicgames-freebies:/app/data'
+  # epic_free:
+  #   image: ghcr.io/jackblk/epicgames-freebies-claimer:latest
+  #   container_name: 'epic_free'
+  #   stdin_open: true # docker run -i
+  #   tty: true        # docker run -t
+  #   volumes:
+  #     - './epicgames-freebies:/app/data'
 
   archiveteam:
     image: atdr.meo.ws/archiveteam/warrior-dockerfile
@@ -83,12 +83,12 @@ services:
     #   restart_policy:
     #     condition: on-failure
     ports:
-      - '8001:8001'
+      - "8001:8001"
     environment:
-      - 'DOWNLOADER=${NAME}'
-      # - 'SELECTED_PROJECT=youtube-dislikes'
-      - 'CONCURRENT_ITEMS=6'
-      - 'SHARED_RSYNC_THREADS=60'
+      - "DOWNLOADER=${NAME}"
+      - "SELECTED_PROJECT=auto"
+      - "CONCURRENT_ITEMS=6"
+      - "SHARED_RSYNC_THREADS=60"
     labels:
       - com.centurylinklabs.watchtower.enable=true
 
